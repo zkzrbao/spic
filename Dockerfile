@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 COPY . .
 
 # 安装Python依赖
-RUN pip install --no-cache-dir -r pyproject.toml
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 暴露端口
 EXPOSE 8190
