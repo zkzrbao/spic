@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  spic-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spic-ai
+    ports:
+      - "8190:8190"
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8190/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # 如果需要数据库，可以添加以下服务
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: spic-ai-postgres
+  #   environment:
+  #     POSTGRES_DB: spic_ai
+  #     POSTGRES_USER: spic_user
+  #     POSTGRES_PASSWORD: spic_password
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: spic-ai-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   restart: unless-stopped
+
+# volumes:
+#   postgres_data:
+#   redis_data:

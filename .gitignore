@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.trae
+
+# Virtual environments
+.venv
+log/*.log
+*.docx
+#所有docx、xlsx、pptx文件都不上传
+*.xlsx
+*.pptx
+*.png

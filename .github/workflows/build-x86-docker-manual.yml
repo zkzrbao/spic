@@ -1,0 +1,69 @@
+name: Build x86 Image & Upload to Release (Manual Only)
+
+# 仅支持手动触发
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release 标签名称 (例如: v1.0.0-x86)'
+        required: true
+        default: 'v1.0.0-x86'
+      release_name:
+        description: 'Release 名称'
+        required: true
+        default: 'x86 Image Build'
+      release_body:
+        description: 'Release 描述信息'
+        required: false
+        default: 'Automatically built x86/amd64 Docker image tar package'
+
+# 关键添加：显式声明所需权限
+permissions:
+  contents: write  # 授予创建/修改Release的权限
+  packages: read   # 可选，保持与Docker相关的基础权限
+
+jobs:
+  build-x86-image:
+    runs-on: ubuntu-latest
+    steps:
+      # 步骤1：拉取仓库代码
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      # 步骤2：创建输出目录（避免tar包保存失败）
+      - name: Create Output Directory
+        run: mkdir -p ./docker-image
+
+      # 步骤3：配置Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 步骤4：构建x86(amd64)镜像并导出为tar包
+      - name: Build x86(amd64) Image & Export to Tar
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64
+          push: false
+          tags: spic-ai:amd64-latest
+          outputs: type=docker,dest=./docker-image/spic-ai-amd64.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 步骤5：创建GitHub Release
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.release_tag }}
+          name: ${{ github.event.inputs.release_name }}
+          body: ${{ github.event.inputs.release_body }}
+          draft: false
+          prerelease: false
+          files: ./docker-image/spic-ai-amd64.tar
+
+      # 步骤6：输出Release信息（便于查看）
+      - name: Output Release URL
+        run: echo "Release created at ${{ steps.create_release.outputs.url }}"

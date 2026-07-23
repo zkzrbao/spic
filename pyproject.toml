@@ -1,0 +1,56 @@
+[project]
+name = "spic-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "apiexception>=0.2.0",
+    "asgi-correlation-id>=4.3.4",
+    "asyncmy>=0.2.10",
+    "baidusearch>=1.0.3",
+    "fastapi[standard]>=0.117.1",
+    "fastapi-pagination>=0.14.1",
+    "fastapi-utils>=0.8.0",
+    "langchain-openai>=0.3.33",
+    "langchain-postgres>=0.0.15",
+    "loguru>=0.7.3",
+    "msgspec>=0.19.0",
+    "openai>=1.109.1",
+    "psycopg-binary>=3.2.10",
+    "pycountry>=24.6.1",
+    "pydantic-settings>=2.11.0",
+    "pymysql>=1.1.2",
+    "redis>=6.4.0",
+    "requests>=2.32.5",
+    "sqlalchemy>=2.0.43",
+    "sqlmodel>=0.0.25",
+    "tzdata>=2025.2",
+    "uvicorn>=0.37.0",
+    "vanna[postgres]>=0.7.9",
+    "xdbsearchip>=1.0.2",
+    "user-agents>=2.2.0",
+    "asgiref>=3.10.0",
+    "cryptography>=46.0.3",
+    "sqlalchemy-crud-plus>=1.12.1",
+    "passlib>=1.7.4",
+    "python-jose[cryptography]>=3.5.0",
+    "ksycopg2>=2.9.0",
+    "docx>=0.2.4",
+    "xlsxwriter>=3.2.9",
+    "python-docx>=1.2.0",
+    "docxtpl>=0.20.2",
+    "pywin32>=311; sys_platform == 'win32'",
+    "python-pptx>=1.0.2",
+    "json-repair>=0.54.2",
+    "sqlglot>=28.1.0",
+    "matplotlib>=3.10.8",
+    "rank-bm25>=0.2.2",
+    "jieba>=0.42.1",
+    "agno>=2.6.5",
+    "seaborn>=0.13.2",
+]
+
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
